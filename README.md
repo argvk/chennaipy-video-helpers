@@ -4,7 +4,7 @@ This repository contains helper scripts and commands to create meetup videos for
 
 ## Steps
 
-1. Install `ffmpeg`, `sox`, `imagemagick`, `ghostscript`
+* Install `ffmpeg`, `sox`, `imagemagick`, `ghostscript`
     * On OSX, you can directly use brew for the above:
             `brew install ffmpeg sox imagemagick ghostscript` 
             
