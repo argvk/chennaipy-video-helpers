@@ -1,6 +1,7 @@
 import sys
 import subprocess
 import glob
+from datetime import datetime
 
 all_args = []
 
@@ -21,9 +22,14 @@ time_parts = all_args[2:]
 
 outfile_name_iterator = -1
 
-# TODO convert start and end time to a duration, this speeds up the process, 
-# pool the processes, they can run independently
-for (start_time, end_time, imagefile_name) in zip(time_parts, time_parts[1:], sorted(glob.glob(images_dir+"*.png"),key=lambda name:int(name[len(images_dir):-4]))):
+# TODO pool the processes, they can run independently
+for (start_time, end_time, imagefile_name) in zip(time_parts, time_parts[1:], sorted(glob.glob(images_dir+"*.png"),key=lambda name:float(name[len(images_dir):-4]))):
+
+    start_date = datetime.strptime(start_time, '%M:%S')
+    end_date = datetime.strptime(end_time, '%M:%S')
+
+    duration = int((end_date - start_date).total_seconds())
+
     outfile_name_iterator = outfile_name_iterator + 1
     outfile_name = output_dir + str(outfile_name_iterator) + ".mp4"
 
@@ -31,14 +37,14 @@ for (start_time, end_time, imagefile_name) in zip(time_parts, time_parts[1:], so
       "-loglevel",
       "error",
       "-y",
+      "-ss",
+      start_time,
       "-loop",
       "1",
       "-i",
       imagefile_name,
-      "-ss",
-      start_time,
-      "-to",
-      end_time,
+      "-t",
+      str(duration),
       "-preset",
       "ultrafast",
       "-qp",
