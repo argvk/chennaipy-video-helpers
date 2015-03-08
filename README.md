@@ -6,20 +6,22 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * Install `ffmpeg`, `sox`, `imagemagick`, `ghostscript`
     * On OSX, you can directly use brew for the above:
-            `brew install ffmpeg sox imagemagick ghostscript` 
+    
+            brew install ffmpeg sox imagemagick ghostscript
+            
     * On Ubuntu, installing [ffmpeg is a bit tricky](http://blog.pkh.me/p/13-the-ffmpeg-libav-situation.html), but these commands should get you started: 
-    ```
-    sudo add-apt-repository ppa:mc3man/trusty-media
-    sudo apt-get update
-    sudo apt-get dist-upgrade
-    sudo apt-get install ffmpeg imagemagick ghostscript sox
-    ```
-    [more about the ffmpeg ppa here](https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media)
-    * On Windows, you can individually download and install prebuilt binaries for the packages
-        * ffmpeg (http://ffmpeg.zeranoe.com/builds/, 64-bit static should do)
-        * sox (http://sourceforge.net/projects/sox/files/sox/)
-        * imagemagick (http://www.imagemagick.org/script/binary-releases.php#windows)
-        * ghostscript (http://www.ghostscript.com/download/gsdnld.html)
+
+            sudo add-apt-repository ppa:mc3man/trusty-media
+            sudo apt-get update
+            sudo apt-get dist-upgrade
+            sudo apt-get install ffmpeg imagemagick ghostscript sox
+
+        You can read more about the ffmpeg ppa [here](https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media)
+    * On Windows, you can individually download and install prebuilt binaries for the packages:
+        * [ffmpeg](http://ffmpeg.zeranoe.com/builds/), 64-bit static should do
+        * [sox](http://sourceforge.net/projects/sox/files/sox/)
+        * [imagemagick](http://www.imagemagick.org/script/binary-releases.php#windows)
+        * [ghostscript](http://www.ghostscript.com/download/gsdnld.html)
         * you might have to manually add them to `PATH` if not done automatically. 
             
 * Convert the audio to a wav (wav files are faster to process, and easier to manipulate using sox)
