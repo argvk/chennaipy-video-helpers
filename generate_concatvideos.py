@@ -8,6 +8,6 @@ for arg in sys.argv:
 
 output_dir = all_args[1]
 
-with open("concatvideos",'a') as the_file:
+with open("concatvideos",'w') as the_file:
     for videofile_name in sorted(glob.glob(output_dir+"*.mp4"), key=lambda name:int(name[len(output_dir):-4])):
         the_file.write("file '%s'\n" % videofile_name)
