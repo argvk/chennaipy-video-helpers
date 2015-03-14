@@ -69,7 +69,7 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * convert the svg to a png
         
-        $ convert title.svg -density 150 -resize 1552x898  title.png
+        $ convert title.svg -density 150 -resize 1980x1090 title.png
 
 * create title video with empty audio
 
