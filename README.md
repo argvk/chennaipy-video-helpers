@@ -35,7 +35,7 @@ This repository contains helper scripts and commands to create meetup videos for
         
 * Convert the pdf to individual images using
 
-        $ convert -density 150 -resize 1920x1080 bigbigdata.pdf[0-20] individual_images/%d.png 
+        $ convert -density 150 -resize 1920x1080 bigbigdata.pdf individual_images/%d.png 
 
 * Notedown timestamps from audio at which slide is to be changed
 
@@ -58,3 +58,23 @@ This repository contains helper scripts and commands to create meetup videos for
 * Join the generated video with the final audio
 
         $ ffmpeg -i joined.mp4 -i final.wav -shortest -preset ultrafast -q 0 final.mp4
+
+* scale video to 16:9 
+
+        $ ffmpeg -i final.mp4 -vf pad="ih*16/9:ih:(ow-iw)/2:(oh-ih)/2" -preset ultrafast -acodec copy final2.mp4
+
+* Generate the title image 
+
+        $ sed -e 's/%title%/My Python Experience/g' -e 's/%speaker%/Shrikant Giridhar/g' -e 's/%month%/Feb/g' title-template.svg > title.svg
+
+* convert the svg to a png
+        
+        $ convert title.svg -density 150 -resize 1552x898  title.png
+
+* create title video with empty audio
+
+        $ ffmpeg -loop 1 -i title.png -ar 44100 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -acodec libfdk_aac -ab 128k -map 0:0 -map 1:0 -t 7 -preset ultrafast -qp 0 title.mp4
+
+* create the uploadable version
+
+        $ ffmpeg -i title.mp4 -i final2.mp4 -filter_complex "[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" uploadable.mp4
