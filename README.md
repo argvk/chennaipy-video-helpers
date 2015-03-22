@@ -6,10 +6,10 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * Install `ffmpeg`, `sox`, `imagemagick`, `ghostscript`
     * On OSX, you can directly use brew for the above:
-    
+
             $ brew install ffmpeg sox imagemagick ghostscript
-            
-    * On Ubuntu, installing [ffmpeg is a bit tricky](http://blog.pkh.me/p/13-the-ffmpeg-libav-situation.html), but these commands should get you started: 
+
+    * On Ubuntu, installing [ffmpeg is a bit tricky](http://blog.pkh.me/p/13-the-ffmpeg-libav-situation.html), but these commands should get you started:
 
             $ sudo add-apt-repository ppa:mc3man/trusty-media
             $ sudo apt-get update
@@ -22,20 +22,20 @@ This repository contains helper scripts and commands to create meetup videos for
         * [sox](http://sourceforge.net/projects/sox/files/sox/)
         * [imagemagick](http://www.imagemagick.org/script/binary-releases.php#windows)
         * [ghostscript](http://www.ghostscript.com/download/gsdnld.html)
-        * you might have to manually add them to `PATH` if not done automatically. 
-            
+        * you might have to manually add them to `PATH` if not done automatically.
+
 * Convert the audio to a wav (wav files are faster to process, and easier to manipulate using sox)
 
         $ ffmpeg -i bigdata_audio.m4a audio.wav
-        
+
 * Remove noise from audio
 
         $ sox audio.wav -n trim 0 1.5 noiseprof noise.profile
         $ sox audio.wav cleaned.wav noisered noise.profile 0
-        
+
 * Convert the pdf to individual images using
 
-        $ convert -density 150 -resize 1920x1080 bigbigdata.pdf individual_images/%d.png 
+        $ convert -density 150 -resize 1920x1080 bigbigdata.pdf individual_images/%d.png
 
 * Notedown timestamps from audio at which slide is to be changed
 
@@ -45,7 +45,7 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * Trim the audio if required
 
-        $ sox cleaned.wav final.wav trim 00:02 =21:20 
+        $ sox cleaned.wav final.wav trim 00:02 =21:20
 
 * Generate a `concatvideos` file to be used by ffmpeg to join the videos to form a single one
 
@@ -59,16 +59,24 @@ This repository contains helper scripts and commands to create meetup videos for
 
         $ ffmpeg -i joined.mp4 -i final.wav -shortest -preset ultrafast -q 0 final.mp4
 
-* scale video to 16:9 
+* Adjust volume in the video
+
+        $ ffmpeg -i <input_video_name> -af 'volume=2.5<or 1x>' -preset ultrafast <output_video_name>
+
+* Trim the video if required
+
+        $ ffmpeg -ss <start_time_in_hh:mm:sec> -i <input_video_name>  -t <time_duration_in_hh:mm:sec> <output_video_name>
+
+* scale video to 16:9
 
         $ ffmpeg -i final.mp4 -vf pad="ih*16/9:ih:(ow-iw)/2:(oh-ih)/2" -preset ultrafast -acodec copy final2.mp4
 
-* Generate the title image 
+* Generate the title image
 
         $ sed -e 's/%title%/My Python Experience/g' -e 's/%speaker%/Shrikant Giridhar/g' -e 's/%month%/Feb/g' title-template.svg > title.svg
 
 * convert the svg to a png
-        
+
         $ convert title.svg -density 150 -resize 1920x1080 title.png
 
 * create title video with empty audio
@@ -77,4 +85,6 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * create the uploadable version
 
-        $ ffmpeg -i title.mp4 -i final2.mp4 -filter_complex "[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" uploadable.mp4
+        $ ffmpeg -i title.mp4 -i final2.mp4 -filter_complex "[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]"  uploadable.mp4
+
+    Note: Use `-preset ultrafast` if cpu is consistently high, but increases overall filesize. Using it is **not** recommended.
