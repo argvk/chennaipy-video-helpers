@@ -81,7 +81,7 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * create title video with empty audio
 
-        $ ffmpeg -loop 1 -i title.png -ar 44100 -acodec pcm_s16le -f s16le -ac 2 -i /dev/zero -acodec libfdk_aac -ab 128k -map 0:0 -map 1:0 -t 7 -preset ultrafast -qp 0 title.mp4
+        $ ffmpeg -loop 1 -i title.png -f lavfi -i aevalsrc=0 -acodec libvo_aacenc -ab 128k -map 0:0 -map 1:0 -t 7 -preset ultrafast -qp 0 title.mp4
 
 * create the uploadable version
 
