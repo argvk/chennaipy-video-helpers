@@ -73,7 +73,7 @@ This repository contains helper scripts and commands to create meetup videos for
 
 * Generate the title image
 
-        $ sed -e 's/%title%/My Python Experience/g' -e 's/%speaker%/Shrikant Giridhar/g' -e 's/%month%/Feb/g' title-template.svg > title.svg
+        $ sed -e 's/%title%/My Python Experience/g' -e 's/%speaker%/Shrikant Giridhar/g' -e 's/%month%/Feb/g'  -e 's/%year%/2017/g' title-template.svg > title.svg
 
 * convert the svg to a png
 
