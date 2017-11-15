@@ -1,3 +1,7 @@
+# UNUSED 
+
+The current version is a much improved version upon this by Gaurav. Find the project here: https://github.com/igauravsehrawat/meetup-utilities
+
 # Chennaipy-video-helpers
 
 This repository contains helper scripts and commands to create meetup videos for [Chennaipy](http://chennaipy.org).
